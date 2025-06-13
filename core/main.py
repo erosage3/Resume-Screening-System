@@ -1,5 +1,5 @@
 from fastapi import FastAPI
-from core.api import health_router,auth_router
+from core.api import health_router,auth_router,job_router
 
 app = FastAPI(
     title="AI Resume Screening System",
@@ -9,3 +9,5 @@ app = FastAPI(
 
 app.include_router(health_router.router)
 app.include_router(auth_router.router)
+
+app.include_router(job_router.router)
