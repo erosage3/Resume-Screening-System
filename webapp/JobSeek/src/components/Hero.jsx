@@ -7,7 +7,7 @@ function Hero() {
           Connect Talent with Opportunity
         </h1>
         <p className="text-white text-lg md:text-xl max-w-2xl leading-relaxed opacity-90">
-          SmartHire is the premier platform for job seekers and recruiters, offering intelligent resume ranking and seamless job posting to streamline the hiring process.
+          JobSeek is the premier platform for job seekers and recruiters, offering intelligent resume ranking and seamless job posting to streamline the hiring process.
         </p>
         <div className="flex flex-col sm:flex-row gap-4 mt-4">
           <button className="bg-blue-600 hover:bg-blue-700 text-white px-8 py-3 rounded-lg font-semibold text-lg transition-all transform hover:scale-105">
