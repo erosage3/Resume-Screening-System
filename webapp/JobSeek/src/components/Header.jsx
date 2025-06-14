@@ -22,10 +22,12 @@ function Header() {
           Log In
         </button>
           </Link>
-        
-          <button className="bg-gray-100 hover:bg-gray-200 text-gray-900 px-4 py-2 rounded-lg font-medium transition-colors">
+          
+          <Link to={"./Register"}>
+            <button className="bg-gray-100 hover:bg-gray-200 text-gray-900 px-4 py-2 rounded-lg font-medium transition-colors">
             Sign Up
           </button>
+          </Link>
         </div>
       </nav>
       

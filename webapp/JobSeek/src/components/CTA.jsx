@@ -10,7 +10,7 @@ function CTA() {
         <p className="text-gray-600 text-lg mb-8 max-w-2xl mx-auto">
           Join JobSeek today and take the next step in your career.
         </p>
-        <Link to={"./login"}>
+        <Link to={"./Register"}>
         <button className="bg-blue-600 hover:bg-blue-700 text-white px-8 py-4 rounded-lg font-semibold text-lg transition-all transform hover:scale-105 shadow-lg">
           Sign Up Now
         </button>
