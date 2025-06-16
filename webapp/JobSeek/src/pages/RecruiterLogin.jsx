@@ -87,19 +87,30 @@ function RecruiterLogin() {
     setIsLoading(true);
 
     try {
-      // Simulate API call
-      await new Promise(resolve => setTimeout(resolve, 2000));
       
-      // Mock authentication logic
-      const isValidCredentials = formData.email === 'recruiter@company.com' && formData.password === 'SecurePass123';
-      
-      if (isValidCredentials) {
-        // Reset attempts on successful login
+
+      // API call
+      const response = await fetch("http://localhost:8000/auth/login",{
+        method:'POST',
+        headers: {
+          "Content-Type":'application/json',
+          "Accept" : 'application/json'
+        },
+        body: JSON.stringify(formData)
+      });
+
+        
+      if (response.ok) {
+        // In real app, handle successful login (redirect, store token, etc.)
+        const data = await response.json();
+        console.log('Login Success:', data);
+
+        //Store JWT token
+        localStorage.setItem('accessToken', data.access);
+
+        //Reset login attempts
         setLoginAttempts(0);
         setIsLocked(false);
-        
-        // In real app, handle successful login (redirect, store token, etc.)
-        alert('Login successful! Redirecting to dashboard...');
         
         // Store session info (in real app, use secure HTTP-only cookies)
         if (formData.rememberMe) {
@@ -109,6 +120,9 @@ function RecruiterLogin() {
             rememberMe: true
           }));
         }
+
+         alert('Login successful! Redirecting to dashboard...');
+         navigate('/RecruiterDashboard');
         
       } else {
         // Handle failed login

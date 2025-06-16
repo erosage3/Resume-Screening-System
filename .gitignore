@@ -1,4 +1,4 @@
 __pycache__/
 *.pyc
-setting.py
 .env.example
+setting.py
