@@ -33,3 +33,14 @@ def get_job_by_id(job_id: int):
     if not job:
         return None
     return {"title": job[0], "description": job[1], "skills": job[2]}
+
+def save_applicant(name, email, phone, job_id, match_score, resume_text):
+    conn = get_connection()
+    cur = conn.cursor()
+    cur.execute("""
+        INSERT INTO applicants (name, email, phone, job_id, match_score, resume_text)
+        VALUES (%s, %s, %s, %s, %s, %s)
+    """, (name, email, phone, job_id, match_score, resume_text))
+    conn.commit()
+    cur.close()
+    conn.close()

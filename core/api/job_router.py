@@ -1,4 +1,4 @@
-from fastapi import APIRouter, Depends, HTTPException, UploadFile, File
+from fastapi import APIRouter, Depends, HTTPException, UploadFile, File, Form
 from pydantic import BaseModel
 from core.service import job_service
 from core.util.jwt_utils import decode_token
@@ -24,7 +24,7 @@ class JobResponse(BaseModel):
     posted_by: int
     created_at: str
 
-# Auth Helper
+# Auth helper
 def get_current_user(token: str = Depends(oauth2_scheme)):
     try:
         payload = decode_token(token)
@@ -38,7 +38,7 @@ def create_job(req: JobCreateRequest, user=Depends(get_current_user)):
     job_id = job_service.post_job(req.title, req.description, req.skills, req.due_date, user["user_id"])
     return {"message": "Job posted successfully", "job_id": job_id}
 
-# GET /jobs/ - List all jobs
+# GET /jobs/ - List jobs
 @router.get("/", response_model=List[JobResponse])
 def list_jobs():
     jobs = job_service.list_jobs()
@@ -51,12 +51,18 @@ def list_jobs():
         for job in jobs
     ]
 
-# POST /jobs/apply/{job_id}/ - Apply with resume
+# POST /jobs/apply/{job_id}
 @router.post("/apply/{job_id}")
-def apply_to_job(job_id: int, resume: UploadFile = File(...)):
+def apply_to_job(
+    job_id: int,
+    resume: UploadFile = File(...),
+    name: str = Form(...),
+    email: str = Form(...),
+    phone: str = Form(...)
+):
     job_data = job_service.get_job_by_id(job_id)
     if not job_data:
         raise HTTPException(status_code=404, detail="Job not found")
-    
-    result = job_service.apply_to_job(job_id, resume, job_data)
+
+    result = job_service.apply_to_job(job_id, resume, job_data, name, email, phone)
     return result
