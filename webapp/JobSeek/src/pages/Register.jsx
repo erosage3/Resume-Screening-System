@@ -54,12 +54,10 @@ const navigate = useNavigate();
                 
             })
             result = await result.json()
-            console.warn("result",result)
+            
 
-            if(result.success){
-                alert("Registration Successful!");
+            if(result.message === "User registered successfully"){
                 setFormData({ email: '', password: '', confirmPassword: '' });
-                setTimeout(() => navigate('/login'), 1500);
                 navigate('/login');
             }else{
                 setErrors({ api: result.message || 'Registration failed' });

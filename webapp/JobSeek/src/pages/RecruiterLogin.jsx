@@ -1,4 +1,4 @@
-import React, { useState } from 'react';
+import { useState } from 'react';
 import { useNavigate } from 'react-router-dom';
 
 
@@ -36,9 +36,7 @@ function RecruiterLogin() {
     // Password validation
     if (!formData.password) {
       newErrors.password = 'Password is required';
-    } else if (formData.password.length < 8) {
-      newErrors.password = 'Password must be at least 8 characters';
-    }
+    } 
     
     setErrors(newErrors);
     return Object.keys(newErrors).length === 0;
@@ -121,7 +119,6 @@ function RecruiterLogin() {
           }));
         }
 
-         alert('Login successful! Redirecting to dashboard...');
          navigate('/RecruiterDashboard');
         
       } else {
