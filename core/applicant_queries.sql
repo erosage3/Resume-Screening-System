@@ -1,10 +1,12 @@
-CREATE TABLE IF NOT EXISTS applicants (
+
+
+CREATE TABLE applicants (
     id SERIAL PRIMARY KEY,
-    name VARCHAR(100) NOT NULL,
-    email VARCHAR(100) NOT NULL,
-    phone VARCHAR(20),
-    job_id INTEGER REFERENCES jobs(id) ON DELETE CASCADE,
-    match_score FLOAT,
-    resume_text TEXT,
-    created_at TIMESTAMP DEFAULT CURRENT_TIMESTAMP
+    name TEXT NOT NULL,
+    email TEXT NOT NULL,
+    phone TEXT NOT NULL,
+    resume_text TEXT NOT NULL,
+    match_score NUMERIC(5, 2),
+    job_id INTEGER NOT NULL REFERENCES jobs(id) ON DELETE CASCADE,
+    applied_at TIMESTAMP DEFAULT CURRENT_TIMESTAMP
 );
