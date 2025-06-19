@@ -11,7 +11,7 @@ const router = createBrowserRouter([
   { path: "/register", element: <Register/>},
   { path: "/login", element: <RecruiterLogin /> },
   {
-    path: "/RecruiterDashboard",
+    path: "/recruiter/dashboard",
     element: (
       <ProtectedRoute>
         <RecruiterDashboard/>
