@@ -21,6 +21,14 @@ function RecruiterLogin() {
   const MAX_ATTEMPTS = 10;
   const LOCKOUT_DURATION = 15 * 60 * 1000; // 15 minutes
 
+  //Handle Signup
+  const handleSignup = () => {
+    navigate("/register");
+  }
+            
+    
+
+
   // Input validation
   const validateForm = () => {
     const newErrors = {};
@@ -176,7 +184,7 @@ function RecruiterLogin() {
                   <path d="M44 11.27C44 14.01 39.84 16.4 33.69 17.64C39.84 18.88 44 21.26 44 24C44 26.74 39.84 29.12 33.69 30.36C39.84 31.6 44 33.99 44 36.73C44 40.74 35.05 44 24 44C12.95 44 4 40.74 4 36.73C4 33.99 8.16 31.6 14.31 30.36C8.16 29.12 4 26.74 4 24C4 21.26 8.16 18.88 14.31 17.64C8.16 16.4 4 14.01 4 11.27C4 7.26 12.95 4 24 4C35.05 4 44 7.26 44 11.27Z" />
                 </svg>
               </div>
-              <h1 className="text-2xl font-bold text-gray-900">SmartHire</h1>
+              <h1 className="text-2xl font-bold text-gray-900">JobSeek</h1>
             </div>
           </div>
           <h2 className="text-3xl font-bold text-gray-900">Recruiter Login</h2>
@@ -341,9 +349,11 @@ function RecruiterLogin() {
         <div className="text-center">
           <p className="text-sm text-gray-600">
             Don't have an account?{' '}
-            <a href="#" className="font-medium text-blue-600 hover:text-blue-500">
-              Sign up for SmartHire
-            </a>
+            <button onClick={handleSignup}
+              className="font-medium text-blue-600 hover:text-blue-500"
+            >
+              Sign up for JobSeek
+            </button>
           </p>
           <p className="mt-2 text-xs text-gray-500">
             <a href="#" className="hover:text-gray-700">Back to Home</a>
