@@ -5,7 +5,7 @@ import Register from './pages/Register'
 import RecruiterLogin from './pages/RecruiterLogin'
 import ProtectedRoute from './ProtectedRoute'
 import RecruiterDashboard from './pages/RecruiterDashboard'
-import PostJob from './pages/JobPostForm'
+import PostJob from './pages/PostJob'
 
 const router = createBrowserRouter([
   { path: "/", element: <Home /> },
