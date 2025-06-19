@@ -119,7 +119,7 @@ function RecruiterLogin() {
           }));
         }
 
-         navigate('/RecruiterDashboard');
+         navigate('/recruiter/dashboard');
         
       } else {
         // Handle failed login
