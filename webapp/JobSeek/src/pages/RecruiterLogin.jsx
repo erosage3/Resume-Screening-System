@@ -96,15 +96,12 @@ function RecruiterLogin() {
         },
         body: JSON.stringify(formData)
       });
-
+        const data = await response.json();
         
       if (response.ok) {
         // In real app, handle successful login (redirect, store token, etc.)
-        const data = await response.json();
+        localStorage.setItem('accessToken', data.access_token);
         console.log('Login Success:', data);
-
-        //Store JWT token
-        localStorage.setItem('accessToken', data.access);
 
         //Reset login attempts
         setLoginAttempts(0);
