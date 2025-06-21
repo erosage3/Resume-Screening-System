@@ -10,6 +10,10 @@ def list_jobs():
 def get_job_by_id(job_id):
     return job_repo.get_job_by_id(job_id)
 
+def get_applicants_for_recruiter(recruiter_id):
+    return job_repo.get_applicants_for_recruiter(recruiter_id)
+
+
 def apply_to_job(job_id, resume_file, job_data, name, email, phone):
     # Match score
     result = match_resume_to_job_manual(

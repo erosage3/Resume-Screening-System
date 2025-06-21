@@ -44,3 +44,17 @@ def save_applicant(name, email, phone, job_id, match_score, resume_text):
     conn.commit()
     cur.close()
     conn.close()
+def get_applicants_for_recruiter(recruiter_id: int):
+    conn = get_connection()
+    cur = conn.cursor()
+    cur.execute("""
+        SELECT a.id, a.name, a.email, a.phone, a.match_score, a.created_at, j.title
+        FROM applicants a
+        JOIN jobs j ON a.job_id = j.id
+        WHERE j.posted_by = %s
+        ORDER BY a.created_at DESC
+    """, (recruiter_id,))
+    data = cur.fetchall()
+    cur.close()
+    conn.close()
+    return data
