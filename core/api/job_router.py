@@ -82,3 +82,15 @@ def get_my_applicants(user=Depends(get_current_user)):
         }
         for a in applicants
     ]
+# GET /jobs/me - List jobs posted by the currently authenticated recruiter
+@router.get("/me", response_model=List[JobResponse])
+def list_my_jobs(user=Depends(get_current_user)):
+    jobs = job_service.get_jobs_by_recruiter(user["user_id"])
+    return [
+        JobResponse(
+            id=job[0], title=job[1], description=job[2],
+            skills=job[3], due_date=str(job[4]),
+            posted_by=job[5], created_at=str(job[6])
+        )
+        for job in jobs
+    ]

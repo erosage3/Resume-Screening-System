@@ -36,3 +36,5 @@ def apply_to_job(job_id, resume_file, job_data, name, email, phone):
         "match_score": score,
         "message": "Resume processed and saved successfully"
     }
+def get_jobs_by_recruiter(recruiter_id):
+    return job_repo.get_jobs_by_recruiter(recruiter_id)

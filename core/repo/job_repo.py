@@ -58,3 +58,16 @@ def get_applicants_for_recruiter(recruiter_id: int):
     cur.close()
     conn.close()
     return data
+def get_jobs_by_recruiter(recruiter_id: int):
+    conn = get_connection()
+    cur = conn.cursor()
+    cur.execute("""
+        SELECT id, title, description, skills, due_date, posted_by, created_at
+        FROM jobs
+        WHERE posted_by = %s
+        ORDER BY created_at DESC
+    """, (recruiter_id,))
+    jobs = cur.fetchall()
+    cur.close()
+    conn.close()
+    return jobs
