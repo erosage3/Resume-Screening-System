@@ -1,4 +1,14 @@
+import { useNavigate } from 'react-router-dom';
+
+
 function Hero() {
+  const navigate = useNavigate();
+
+  const GetStarted = () => {       
+    navigate("/jobs");                       
+  };
+
+
   return (
     <section className="relative bg-gradient-to-br from-green-800 via-green-700 to-yellow-600 rounded-xl mx-4 mt-6 overflow-hidden">
       <div className="absolute inset-0 bg-black bg-opacity-40"></div>
@@ -10,7 +20,7 @@ function Hero() {
           JobSeek is the premier platform for job seekers and recruiters, offering intelligent resume ranking and seamless job posting to streamline the hiring process.
         </p>
         <div className="flex flex-col sm:flex-row gap-4 mt-4">
-          <button className="bg-blue-600 hover:bg-blue-700 text-white px-8 py-3 rounded-lg font-semibold text-lg transition-all transform hover:scale-105">
+          <button onClick={GetStarted} className="bg-blue-600 hover:bg-blue-700 text-white px-8 py-3 rounded-lg font-semibold text-lg transition-all transform hover:scale-105">
             Get Started
           </button>
           <button className="bg-white hover:bg-gray-50 text-gray-900 px-8 py-3 rounded-lg font-semibold text-lg transition-all transform hover:scale-105">
