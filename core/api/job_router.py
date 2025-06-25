@@ -67,7 +67,6 @@ def apply_to_job(
     result = job_service.apply_to_job(job_id, resume, job_data, name, email, phone)
     return result
 
-# ✅ NEW ENDPOINT: GET /jobs/applicants/me - Admin View for Recruiters
 @router.get("/applicants/me")
 def get_my_applicants(user=Depends(get_current_user)):
     applicants = job_service.get_applicants_for_recruiter(user["user_id"])
