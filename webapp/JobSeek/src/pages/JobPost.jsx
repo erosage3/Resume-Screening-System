@@ -87,7 +87,7 @@ const JobPost = () => {
                   />
                 </svg>
               </div>
-              <h1 className="text-xl font-bold text-gray-900">CareerConnect</h1>
+              <h1 className="text-xl font-bold text-gray-900">JobSeek</h1>
             </div>
 
             <div className="relative">
