@@ -1,27 +1,27 @@
 import React, { useState, useEffect } from 'react';
 import { Search, Clock, User } from 'lucide-react';
+import JobApplicationForm from '../components/JobApplicationForm';
 
 const JobPost = () => {
   const [jobs, setJobs] = useState([]);
   const [loading, setLoading] = useState(true);
   const [searchTerm, setSearchTerm] = useState('');
   const [showAccountMenu, setShowAccountMenu] = useState(false);
+  const [activeJobId, setActiveJobId] = useState(null);
 
   const fetchJobs = async () => {
     setLoading(true);
     try {
       const response = await fetch('http://localhost:8000/jobs');
       const data = await response.json();
-
       const mappedJobs = data.map((job) => ({
         id: job.id,
         title: job.title,
         description: job.description,
         skills: job.skills,
         due_date: job.due_date,
-        created_at: job.created_at
+        created_at: job.created_at,
       }));
-
       setJobs(mappedJobs);
     } catch (error) {
       console.error('Error fetching jobs:', error);
@@ -57,9 +57,17 @@ const JobPost = () => {
         <p className="text-sm text-blue-700 font-medium mb-4">
           <span className="font-semibold">Apply before:</span> {job.due_date}
         </p>
-        <button className="w-full bg-blue-600 hover:bg-blue-700 text-white font-medium py-2 px-4 rounded-lg transition-colors">
+        <button
+          className="w-full bg-blue-600 hover:bg-blue-700 text-white font-medium py-2 px-4 rounded-lg transition-colors"
+          onClick={() => setActiveJobId(job.id)}
+        >
           Apply Now
         </button>
+        {activeJobId === job.id && (
+          <div className="mt-4">
+            <JobApplicationForm jobId={job.id} onClose={() => setActiveJobId(null)} />
+          </div>
+        )}
       </div>
     </div>
   );
