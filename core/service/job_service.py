@@ -47,5 +47,12 @@ def apply_to_job(job_id, resume_file, job_data, name, email, phone):
 def get_jobs_by_recruiter(recruiter_id):
     return job_repo.get_jobs_by_recruiter(recruiter_id)
 
-def delete_job(job_id, user_id):
-    return job_repo.delete_job(job_id, user_id)
+def delete_job(job_id, recruiter_id):
+    job = job_repo.get_job_by_id_full(job_id)
+    if not job:
+        raise Exception("Job not found")
+
+    if job["posted_by"] != recruiter_id:
+        raise ValueError("You are not authorized to delete this job.")
+
+    job_repo.delete_job(job_id)

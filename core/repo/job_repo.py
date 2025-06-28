@@ -114,10 +114,21 @@ def update_job(
     cur.close()
     conn.close()
 
-def delete_job(job_id, user_id):
+def get_job_by_id_full(job_id: int):
     conn = get_connection()
     cur = conn.cursor()
-    cur.execute("DELETE FROM jobs WHERE id = %s AND posted_by = %s", (job_id, user_id))
+    cur.execute("SELECT id, posted_by FROM jobs WHERE id = %s", (job_id,))
+    job = cur.fetchone()
+    cur.close()
+    conn.close()
+    if not job:
+        return None
+    return {"id": job[0], "posted_by": job[1]}
+
+def delete_job(job_id: int):
+    conn = get_connection()
+    cur = conn.cursor()
+    cur.execute("DELETE FROM jobs WHERE id = %s", (job_id,))
     conn.commit()
     cur.close()
     conn.close()
