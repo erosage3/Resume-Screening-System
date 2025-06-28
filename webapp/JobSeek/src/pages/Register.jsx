@@ -1,15 +1,16 @@
 import { useState } from 'react';
 import { useNavigate } from 'react-router-dom';
+import { useAuthApi } from '../services/api'; 
 
 export default function Register() {
     const navigate = useNavigate();
+    const { register, isLoading: apiLoading, error: apiError, clearError } = useAuthApi();
     const [formData, setFormData] = useState({
         email: '',
         password: '',
         confirmPassword: '',
     });
     const [errors, setErrors] = useState({});
-    const [isLoading, setIsLoading] = useState(false);
     const [showPassword, setShowPassword] = useState(false);
     const [showConfirmPassword, setShowConfirmPassword] = useState(false);
 
@@ -17,6 +18,8 @@ export default function Register() {
         const { name, value } = e.target;
         setFormData(prev => ({ ...prev, [name]: value }));
         if (errors[name]) setErrors(prev => ({ ...prev, [name]: '' }));
+        // Clear API error when user starts typing
+        if (apiError) clearError();
     };
 
     const validate = () => {
@@ -52,40 +55,21 @@ export default function Register() {
         setErrors(validationErrors);
 
         if (Object.keys(validationErrors).length === 0) {
-            setIsLoading(true);
-            
             try {
-                const response = await fetch("http://localhost:8000/auth/register", {
-                    method: 'POST',
-                    headers: {
-                        "Content-Type": "application/json",
-                    },
-                    body: JSON.stringify({
-                        email: formData.email,
-                        password: formData.password
-                        // Note: We don't send confirmPassword to backend
-                    }),
+                const result = await register({
+                    email: formData.email,
+                    password: formData.password
                 });
-
-                if (!response.ok) {
-                    const errorData = await response.json();
-                    throw new Error(errorData.detail || 'Registration failed');
-                }
-
-                const result = await response.json();
                 
-                if (result.message === "User registered successfully") {
+                if (result) {
                     alert("Registration successful! Redirecting to login...");
                     setFormData({ email: '', password: '', confirmPassword: '' });
                     setTimeout(() => navigate('/login'), 1500);
                 }
-            } catch (error) {
-                console.error('Registration error:', error);
-                setErrors({ 
-                    api: error.message || 'Registration failed. Please try again.' 
-                });
-            } finally {
-                setIsLoading(false);
+            } catch {
+                // The error is already handled by the useApi hook and available in apiError
+                // We don't need to do anything extra here as the error will be displayed
+                // from the apiError state
             }
         }
     };
@@ -106,9 +90,9 @@ export default function Register() {
                     <p className="text-gray-600">Join us today and start your journey</p>
                 </div>
 
-                {errors.api && (
+                {apiError && (
                     <div className="bg-red-50 border border-red-200 text-red-700 px-4 py-3 rounded-lg mb-6 text-sm">
-                        {errors.api}
+                        {apiError}
                     </div>
                 )}
 
@@ -128,7 +112,7 @@ export default function Register() {
                             value={formData.email}
                             onChange={handleChange}
                             placeholder="Enter your email"
-                            disabled={isLoading}
+                            disabled={apiLoading}
                         />
                         {errors.email && (
                             <p className="text-red-500 text-sm mt-1 flex items-center">
@@ -154,13 +138,13 @@ export default function Register() {
                                 value={formData.password}
                                 onChange={handleChange}
                                 placeholder="Create a strong password"
-                                disabled={isLoading}
+                                disabled={apiLoading}
                             />
                             <button
                                 type="button"
                                 className="absolute inset-y-0 right-0 pr-3 flex items-center text-gray-500 hover:text-gray-700"
                                 onClick={() => togglePasswordVisibility('password')}
-                                disabled={isLoading}
+                                disabled={apiLoading}
                             >
                                 {showPassword ? (
                                     <svg className="h-5 w-5 text-gray-400" fill="none" stroke="currentColor" viewBox="0 0 24 24">
@@ -198,13 +182,13 @@ export default function Register() {
                                 value={formData.confirmPassword}
                                 onChange={handleChange}
                                 placeholder="Confirm your password"
-                                disabled={isLoading}
+                                disabled={apiLoading}
                             />
                             <button
                                 type="button"
                                 className="absolute inset-y-0 right-0 pr-3 flex items-center text-gray-500 hover:text-gray-700"
                                 onClick={() => togglePasswordVisibility('confirmPassword')}
-                                disabled={isLoading}
+                                disabled={apiLoading}
                             >
                                 {showConfirmPassword ? (
                                     <svg className="h-5 w-5 text-gray-400" fill="none" stroke="currentColor" viewBox="0 0 24 24">
@@ -228,14 +212,14 @@ export default function Register() {
 
                     <button
                         type="submit"
-                        disabled={isLoading}
+                        disabled={apiLoading}
                         className={`w-full py-3 rounded-lg font-semibold text-white transition-all duration-200 ${
-                            isLoading
+                            apiLoading
                                 ? 'bg-gray-400 cursor-not-allowed'
                                 : 'bg-blue-600 hover:bg-blue-700 hover:shadow-lg transform hover:-translate-y-0.5'
                         }`}
                     >
-                        {isLoading ? (
+                        {apiLoading ? (
                             <span className="flex items-center justify-center">
                                 <svg className="animate-spin -ml-1 mr-3 h-5 w-5 text-white" xmlns="http://www.w3.org/2000/svg" fill="none" viewBox="0 0 24 24">
                                     <circle className="opacity-25" cx="12" cy="12" r="10" stroke="currentColor" strokeWidth="4"></circle>
@@ -255,7 +239,7 @@ export default function Register() {
                         <button
                             onClick={() => navigate('/login')}
                             className="text-blue-600 hover:text-blue-700 font-semibold hover:underline"
-                            disabled={isLoading}
+                            disabled={apiLoading}
                         >
                             Sign in here
                         </button>

@@ -1,11 +1,10 @@
-
 import { createBrowserRouter, RouterProvider } from 'react-router-dom'
 import Home from './pages/Home'
 import Register from './pages/Register'
 import RecruiterLogin from './pages/RecruiterLogin'
 import ProtectedRoute from './ProtectedRoute'
 import RecruiterDashboard from './pages/RecruiterDashboard'
-import JobPost from './pages/JobPost'
+import PostJob from './pages/PostJob'
 
 const router = createBrowserRouter([
   { path: "/", element: <Home /> },
@@ -19,9 +18,15 @@ const router = createBrowserRouter([
       </ProtectedRoute>
     )
   },
-
-  { path: "/jobs", element: <JobPost /> }
-
+  {
+    path: "/recruiter/post-job",
+    element: (
+      <ProtectedRoute>
+        <PostJob/>
+      </ProtectedRoute>
+      
+    )
+  }
 ]);
 
 function App() {
