@@ -22,14 +22,14 @@ export default function RecruiterDashboard() {
         const fetchInitialJobs = async () => {
             setIsLoading(true);
             try {
-                const response = await fetch(`${API_BASE}/jobs/`, {
+                const response = await fetch(`${API_BASE}/jobs/me`, {
                     headers: {
                         Authorization: `Bearer ${token}`
                     }
                 });
                 const data = await response.json();
                 console.log("Jobs fetched from API:", data);
-                setJobs(data);
+                setJobs(Array.isArray(data) ? data : data.jobs || []);
             } catch (error) {
                 console.error("Failed to load jobs:", error);
             } finally {

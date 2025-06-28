@@ -5,7 +5,7 @@ import Register from './pages/Register'
 import RecruiterLogin from './pages/RecruiterLogin'
 import ProtectedRoute from './ProtectedRoute'
 import RecruiterDashboard from './pages/RecruiterDashboard'
-import PostJob from './pages/PostJob'
+import JobPost from './pages/JobPost'
 
 const router = createBrowserRouter([
   { path: "/", element: <Home /> },
@@ -19,15 +19,9 @@ const router = createBrowserRouter([
       </ProtectedRoute>
     )
   },
-  {
-    path: "/recruiter/post-job",
-    element: (
-      <ProtectedRoute>
-        <PostJob/>
-      </ProtectedRoute>
-      
-    )
-  }
+
+  { path: "/jobs", element: <JobPost /> }
+
 ]);
 
 function App() {

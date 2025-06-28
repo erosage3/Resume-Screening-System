@@ -14,8 +14,7 @@ function Header() {
         </Link>
       </div>
       <nav className="hidden md:flex items-center gap-8 text-sm font-medium text-gray-600">
-        <a href="#" className="hover:text-gray-900 transition-colors">For Job Seekers</a>
-        <a href="#" className="hover:text-gray-900 transition-colors">For Recruiters</a>
+
         <div className="flex gap-3">
           <Link to={"/login"}>
           <button className="bg-blue-600 hover:bg-blue-700 text-white px-4 py-2 rounded-lg font-medium transition-colors">
