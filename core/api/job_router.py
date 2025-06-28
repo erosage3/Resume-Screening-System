@@ -94,3 +94,11 @@ def list_my_jobs(user=Depends(get_current_user)):
         )
         for job in jobs
     ]
+# DELETE /jobs/{job_id}/ - Delete a job
+@router.delete("/{job_id}/")
+def delete_job(job_id: int, user=Depends(get_current_user)):
+    try:
+        job_service.delete_job(job_id, user["user_id"])
+        return {"message": "Job deleted successfully"}
+    except Exception as e:
+        raise HTTPException(status_code=404, detail="Job not found")

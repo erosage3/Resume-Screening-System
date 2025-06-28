@@ -8,5 +8,5 @@ DB_CONFIG = {
     "port": os.getenv("DB_PORT", 5432),
     "dbname": os.getenv("DB_NAME", "resume_screening"),
     "user": os.getenv("DB_USER", "postgres"),
-    "password": os.getenv("DB_PASSWORD", "qt")
+    "password": os.getenv("DB_PASSWORD", "a@yush")
 }

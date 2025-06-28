@@ -55,31 +55,19 @@ def cosine_similarity_manual(vec1, vec2):
 
     return dot_product / (norm1 * norm2)
 
-def match_resume_to_job_manual(resume_file, job_title, job_description, job_skills):
-    contents = resume_file.file.read()
-    resume_text = extract_text_from_resume(contents, resume_file.filename)
+#  Compute job vector directly from text
+def compute_job_vector(title, description, skills):
+    text = f"{title} {description} {skills}"
+    tokens = tokenize(text)
+    tf = compute_tf(tokens)
+    idf = compute_idf([tokens])
+    vector = compute_tfidf_vector(tf, idf)
+    return vector
 
-    job_text = f"{job_title} {job_description} {job_skills}"
-
-    # Tokenize
-    resume_tokens = tokenize(resume_text)
-    job_tokens = tokenize(job_text)
-
-    # Compute TF
-    resume_tf = compute_tf(resume_tokens)
-    job_tf = compute_tf(job_tokens)
-
-    # Compute IDF using both docs
-    idf = compute_idf([resume_tokens, job_tokens])
-
-    # TF-IDF vectors
-    resume_vec = compute_tfidf_vector(resume_tf, idf)
-    job_vec = compute_tfidf_vector(job_tf, idf)
-
-    # Cosine similarity
-    score = cosine_similarity_manual(resume_vec, job_vec)
-
-    return {
-        "match_score": round(score * 100, 2),  # Percentage
-        "message": "Resume matched to job successfully"
-    }
+# Compute resume vector directly from text
+def compute_resume_vector(resume_text):
+    tokens = tokenize(resume_text)
+    tf = compute_tf(tokens)
+    idf = compute_idf([tokens])
+    vector = compute_tfidf_vector(tf, idf)
+    return vector
