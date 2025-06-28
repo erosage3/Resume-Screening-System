@@ -6,7 +6,7 @@ export const useJobApi = () => {
     const api = useApi();
 
     const fetchJobs = useCallback(async () => {
-        return await api.get('/jobs/');
+        return await api.get('/jobs/me');
     }, [api]);
 
     const fetchJobById = useCallback(async (jobId) => {

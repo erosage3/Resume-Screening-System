@@ -4,7 +4,7 @@ from core.service import job_service
 from core.util.jwt_utils import decode_token
 from fastapi.security import OAuth2PasswordBearer
 from typing import List, Optional
-
+from core.util.resume_utils import compute_job_vector
 router = APIRouter(prefix="/jobs", tags=["Jobs"])
 oauth2_scheme = OAuth2PasswordBearer(tokenUrl="auth/login")
 
@@ -13,7 +13,9 @@ class JobCreateRequest(BaseModel):
     title: str
     description: str
     skills: Optional[str] = ""
+    salary: Optional[str] = ""
     due_date: str
+
 
 class JobResponse(BaseModel):
     id: int
@@ -35,7 +37,16 @@ def get_current_user(token: str = Depends(oauth2_scheme)):
 # POST /jobs/ - Create job
 @router.post("/", response_model=dict)
 def create_job(req: JobCreateRequest, user=Depends(get_current_user)):
-    job_id = job_service.post_job(req.title, req.description, req.skills, req.due_date, user["user_id"])
+    job_vector = compute_job_vector(req.title, req.description, req.skills or "")
+    job_id = job_service.post_job(
+        req.title,
+        req.description,
+        req.skills,
+        req.salary,
+        req.due_date,
+        user["user_id"],
+        job_vector
+    )
     return {"message": "Job posted successfully", "job_id": job_id}
 
 # GET /jobs/ - List jobs
@@ -44,10 +55,15 @@ def list_jobs():
     jobs = job_service.list_jobs()
     return [
         JobResponse(
-            id=job[0], title=job[1], description=job[2],
-            skills=job[3], due_date=str(job[4]),
-            posted_by=job[5], created_at=str(job[6])
-        )
+    id=job[0],
+    title=job[1],
+    description=job[2],
+    skills=job[3],
+    due_date=str(job[4]),
+    posted_by=job[6],  # moved, index adjusted
+    created_at=str(job[7])
+)
+
         for job in jobs
     ]
 
@@ -88,10 +104,14 @@ def list_my_jobs(user=Depends(get_current_user)):
     jobs = job_service.get_jobs_by_recruiter(user["user_id"])
     return [
         JobResponse(
-            id=job[0], title=job[1], description=job[2],
-            skills=job[3], due_date=str(job[4]),
-            posted_by=job[5], created_at=str(job[6])
-        )
+    id=job[0],
+    title=job[1],
+    description=job[2],
+    skills=job[3],
+    due_date=str(job[4]),
+    posted_by=int(job[5]) if job[5] not in (None, '') else 0,  # Safe conversion
+    created_at=str(job[6])
+)
         for job in jobs
     ]
 # DELETE /jobs/{job_id}/ - Delete a job

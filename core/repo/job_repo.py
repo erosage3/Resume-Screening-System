@@ -34,7 +34,7 @@ def get_job_by_id(job_id: int):
     conn.close()
     if not job:
         return None
-    return {"title": job[0], "description": job[1], "skills": job[2], "job_vector": json.loads(job[3])}
+    return {"title": job[0], "description": job[1], "skills": job[2], "job_vector": job[3]}
 
 def save_applicant(name, email, phone, job_id, match_score, resume_text, resume_vector):
     conn = get_connection()
