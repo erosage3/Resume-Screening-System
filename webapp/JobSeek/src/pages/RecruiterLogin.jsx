@@ -24,7 +24,7 @@ function RecruiterLogin() {
 
   // Handle Signup
   const handleSignup = () => {
-    navigate("/register");
+    navigate("/auth/register");
   };
 
   // Input validation
