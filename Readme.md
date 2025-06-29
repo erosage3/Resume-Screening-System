@@ -43,7 +43,16 @@ DB_PORT=5432
 3. Install dependencies
 pip install -r requirements.txt
 
-4. Setup postgres table as
+4. Setup database as
+-- Create a new database with UTF-8 encoding
+CREATE DATABASE resume_screening
+WITH 
+    OWNER = postgres -- Replace with your PostgreSQL username
+    ENCODING = 'UTF8'
+    LC_COLLATE = 'en_US.UTF-8'
+    LC_CTYPE = 'en_US.UTF-8'
+    TEMPLATE = template0;
+
 psql -U your_db_user -d resume_screening -f schema.sql
 Ensure tables:
 
